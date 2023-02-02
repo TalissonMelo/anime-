@@ -22,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.talissonmelo.documentacao.EscolaControladorDocumentacao;
 import com.talissonmelo.modelo.Escola;
+import com.talissonmelo.modelo.conversao.EscolaRespostaModel;
 import com.talissonmelo.modelo.dto.EscolaDto;
 import com.talissonmelo.modelo.dto.EscolaResposta;
 import com.talissonmelo.servico.EscolaServico;
@@ -36,6 +37,9 @@ public class EscolaControlador implements EscolaControladorDocumentacao {
 
 	@Autowired
 	private EscolaServico servico;
+	
+	@Autowired
+	private EscolaRespostaModel escolaRespostaModel;
 
 	@GetMapping(value = "/nomes")
 	public ResponseEntity<List<EscolaResposta>> findAll(@RequestParam(value = "nome", required = false) String nome) {
@@ -58,7 +62,7 @@ public class EscolaControlador implements EscolaControladorDocumentacao {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<EscolaResposta> listarPorId(@PathVariable Long id) {
 		log.info("Listando escola por Id: {}", id);
-		EscolaResposta resposta = servico.retornaEscolaResposta(servico.listarPorId(id));
+		EscolaResposta resposta =  this.escolaRespostaModel.paraEscolaResposta(servico.listarPorId(id));
 		servico.addLink(Arrays.asList(resposta));
 		return ResponseEntity.ok().body(resposta);
 	}

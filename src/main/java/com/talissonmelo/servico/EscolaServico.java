@@ -1,7 +1,6 @@
 package com.talissonmelo.servico;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import com.talissonmelo.controlador.EscolaControlador;
 import com.talissonmelo.modelo.Escola;
+import com.talissonmelo.modelo.conversao.EscolaModel;
+import com.talissonmelo.modelo.conversao.EscolaRespostaModel;
 import com.talissonmelo.modelo.dto.EscolaDto;
 import com.talissonmelo.modelo.dto.EscolaResposta;
 import com.talissonmelo.modelo.exception.ConflitoEmDelecao;
@@ -28,19 +29,25 @@ public class EscolaServico {
 
 	@Autowired
 	private EscolaRepositorio repositorio;
+	
+	@Autowired
+	private EscolaModel escolaModel;
+	
+	@Autowired
+	private EscolaRespostaModel escolaRespostaModel;
 
 	public EscolaResposta salvar(EscolaDto escolaDto) {
-		Escola escola = new Escola(escolaDto.getNome());
-		return this.retornaEscolaResposta(repositorio.save(escola));
+		Escola escola = this.escolaModel.paraEscola(escolaDto);
+		return this.escolaRespostaModel.paraEscolaResposta(repositorio.save(escola));
 	}
 
 	public List<EscolaResposta> listar() {
-		return this.retornarEscolaResposta(repositorio.listarEscolas());
+		return this.escolaRespostaModel.paraEscolaRespostas(repositorio.listarEscolas());
 	}
 
 	public List<EscolaResposta> listar(Escola escola) {
 		Example<Escola> example = Example.of(escola,ExampleMatcher.matching().withIgnoreCase().withStringMatcher(StringMatcher.CONTAINING));
-		return this.retornarEscolaResposta(repositorio.findAll(example));
+		return this.escolaRespostaModel.paraEscolaRespostas(repositorio.findAll(example));
 	}
 
 	public Escola listarPorId(Long id) {
@@ -60,17 +67,9 @@ public class EscolaServico {
 	public EscolaResposta atualizar(Long id, @Valid EscolaDto escolaDto) {
 		Escola escola = repositorio.buscarPorId(id).orElseThrow(() -> new EntidadeNaoEncontrada(Escola.class.getSimpleName().toString(), id));
 		BeanUtils.copyProperties(escolaDto, escola, "id");
-		return this.retornaEscolaResposta(repositorio.save(escola));
+		return this.escolaRespostaModel.paraEscolaResposta(repositorio.save(escola));
 	}
 
-	public List<EscolaResposta> retornarEscolaResposta(List<Escola> escolas) {
-		return escolas.stream().map(escola -> EscolaResposta.criar(escola)).collect(Collectors.toList());
-	}
-	
-	public EscolaResposta retornaEscolaResposta(Escola escola) {
-		return new EscolaResposta(escola.getId(), escola.getNome(), escola.getUuid());
-	}
-	
 	public void addLink(List<EscolaResposta> escolaRespostas) {
 		escolaRespostas.forEach(resposta -> {
 			resposta.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(EscolaControlador.class).listarPorId(resposta.getId())).withSelfRel());
