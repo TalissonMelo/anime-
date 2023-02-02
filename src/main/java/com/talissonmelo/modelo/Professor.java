@@ -1,25 +1,22 @@
 package com.talissonmelo.modelo;
 
+import com.talissonmelo.modelo.padrao.Padrao;
+
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Table(name = "professor")
 @Entity
-public class Professor {
+public class Professor extends Padrao {
+	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
 	private Integer numero;
 	private String nome;
 	private String individualidade;
 	private String nomeHeroi;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "id_escola")
 	private Escola escola;
@@ -27,20 +24,11 @@ public class Professor {
 	public Professor() {
 	}
 
-	public Professor(Long id, Integer numero, String nome, String individualidade, String nomeHeroi) {
-		this.id = id;
+	public Professor(Integer numero, String nome, String individualidade, String nomeHeroi) {
 		this.numero = numero;
 		this.nome = nome;
 		this.individualidade = individualidade;
 		this.nomeHeroi = nomeHeroi;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public Integer getNumero() {

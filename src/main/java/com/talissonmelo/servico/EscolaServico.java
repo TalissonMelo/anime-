@@ -68,7 +68,7 @@ public class EscolaServico {
 	}
 	
 	public EscolaResposta retornaEscolaResposta(Escola escola) {
-		return new EscolaResposta(escola.getId(), escola.getNome());
+		return new EscolaResposta(escola.getId(), escola.getNome(), escola.getUuid());
 	}
 	
 	public void addLink(List<EscolaResposta> escolaRespostas) {
