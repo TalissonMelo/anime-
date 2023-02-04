@@ -26,6 +26,7 @@ import com.talissonmelo.modelo.conversao.EscolaRespostaModel;
 import com.talissonmelo.modelo.dto.EscolaDto;
 import com.talissonmelo.modelo.dto.EscolaResposta;
 import com.talissonmelo.servico.EscolaServico;
+import com.talissonmelo.servico.escola.EscolaServicoPadrao;
 
 import jakarta.validation.Valid;
 
@@ -37,6 +38,9 @@ public class EscolaControlador implements EscolaControladorDocumentacao {
 
 	@Autowired
 	private EscolaServico servico;
+	
+	@Autowired
+	private EscolaServicoPadrao servicoPadrao;
 	
 	@Autowired
 	private EscolaRespostaModel escolaRespostaModel;
@@ -59,7 +63,7 @@ public class EscolaControlador implements EscolaControladorDocumentacao {
 		return ResponseEntity.ok().body(respostas);
 	}
 
-	@GetMapping(value = "/{id}")
+	//@GetMapping(value = "/{id}")
 	public ResponseEntity<EscolaResposta> listarPorId(@PathVariable Long id) {
 		log.info("Listando escola por Id: {}", id);
 		EscolaResposta resposta =  this.escolaRespostaModel.paraEscolaResposta(servico.listarPorId(id));
@@ -86,6 +90,14 @@ public class EscolaControlador implements EscolaControladorDocumentacao {
 	public ResponseEntity<EscolaResposta> atualizarEscola(@PathVariable Long id, @Valid @RequestBody EscolaDto escolaDto) {
 		log.warn("Atualizando escola por Id: {}.", id);
 		EscolaResposta resposta = servico.atualizar(id, escolaDto);
+		return ResponseEntity.ok().body(resposta);
+	}
+	
+	@GetMapping(value = "/{uuid}")
+	public ResponseEntity<EscolaResposta> listarPorUuid(@PathVariable String uuid) {
+		log.info("Listando escola por UUID: {}", uuid);
+		EscolaResposta resposta =  this.escolaRespostaModel.paraEscolaResposta(servicoPadrao.buscar(uuid));
+		servico.addLink(Arrays.asList(resposta));
 		return ResponseEntity.ok().body(resposta);
 	}
 }

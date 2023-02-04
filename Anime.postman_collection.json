@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "44ca0ec2-f779-408f-a5a0-2c6201b8380d",
+		"_postman_id": "cbcb5c95-1142-41a1-b023-e35e89f1a81f",
 		"name": "Anime",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -154,6 +154,26 @@
 									"key": "nome",
 									"value": "Pro"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Escola listar UUID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/escolas/b4bdb4e1-4d75-45c9-95ed-8dd42011a2af",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"escolas",
+								"b4bdb4e1-4d75-45c9-95ed-8dd42011a2af"
 							]
 						}
 					},

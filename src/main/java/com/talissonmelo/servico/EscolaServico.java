@@ -51,21 +51,21 @@ public class EscolaServico {
 	}
 
 	public Escola listarPorId(Long id) {
-		return  repositorio.buscarPorId(id).orElseThrow(() -> new EntidadeNaoEncontrada(Escola.class.getSimpleName().toString(), id));
+		return  repositorio.buscarPorId(id).orElseThrow(() -> new EntidadeNaoEncontrada(id));
 	}
 
 	public void deletar(Long id) {
 		try {
 			repositorio.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontrada(Escola.class.getSimpleName().toString(), id);
+			throw new EntidadeNaoEncontrada(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new ConflitoEmDelecao("Escola não pode ser Deletada, possui persistencia em outra tabela.");
+			throw new ConflitoEmDelecao();
 		}
 	}
 
 	public EscolaResposta atualizar(Long id, @Valid EscolaDto escolaDto) {
-		Escola escola = repositorio.buscarPorId(id).orElseThrow(() -> new EntidadeNaoEncontrada(Escola.class.getSimpleName().toString(), id));
+		Escola escola = repositorio.buscarPorId(id).orElseThrow(() -> new EntidadeNaoEncontrada(id));
 		BeanUtils.copyProperties(escolaDto, escola, "id");
 		return this.escolaRespostaModel.paraEscolaResposta(repositorio.save(escola));
 	}

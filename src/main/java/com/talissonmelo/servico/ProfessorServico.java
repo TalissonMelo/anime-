@@ -54,14 +54,14 @@ public class ProfessorServico {
 		try {
 			repositorio.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontrada(Escola.class.getSimpleName().toString(), id);
+			throw new EntidadeNaoEncontrada(id);
 		} catch (DataIntegrityViolationException e) {
-			throw new ConflitoEmDelecao("Professor não pode ser Deletada, possui persistencia em outra tabela.");
+			throw new ConflitoEmDelecao();
 		}
 	}
 	
 	public Professor listarPorId(Long idProfessor) {
-		return this.repositorio.findById(idProfessor).orElseThrow(() -> new EntidadeNaoEncontrada(Professor.class.getSimpleName(), idProfessor));
+		return this.repositorio.findById(idProfessor).orElseThrow(() -> new EntidadeNaoEncontrada(idProfessor));
 	}
 
 	public Professor atualizar(Long id, @Valid ProfessorDto professorDto) {
