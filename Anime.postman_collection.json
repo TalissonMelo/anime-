@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "cbcb5c95-1142-41a1-b023-e35e89f1a81f",
+		"_postman_id": "482ee2c4-a60c-40d0-97f7-2ef2c7429fe6",
 		"name": "Anime",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -165,7 +165,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/escolas/b4bdb4e1-4d75-45c9-95ed-8dd42011a2af",
+							"raw": "http://localhost:8080/escolas/uuid/b4bdb4e1-4d75-45c9-95ed-8dd42011a2af",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -173,6 +173,7 @@
 							"port": "8080",
 							"path": [
 								"escolas",
+								"uuid",
 								"b4bdb4e1-4d75-45c9-95ed-8dd42011a2af"
 							]
 						}

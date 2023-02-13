@@ -93,7 +93,7 @@ public class EscolaControlador implements EscolaControladorDocumentacao {
 		return ResponseEntity.ok().body(resposta);
 	}
 	
-	@GetMapping(value = "/{uuid}")
+	@GetMapping(value = "/uuid/{uuid}")
 	public ResponseEntity<EscolaResposta> listarPorUuid(@PathVariable String uuid) {
 		log.info("Listando escola por UUID: {}", uuid);
 		EscolaResposta resposta =  this.escolaRespostaModel.paraEscolaResposta(servicoPadrao.buscar(uuid));
