@@ -45,7 +45,9 @@ public class EscolaServico {
 		return this.escolaRespostaModel.paraEscolaRespostas(repositorio.listarEscolas());
 	}
 
-	public List<EscolaResposta> listar(Escola escola) {
+	public List<EscolaResposta> listar(String nome) {
+		Escola escola = new Escola();
+		escola.setNome(nome);
 		Example<Escola> example = Example.of(escola,ExampleMatcher.matching().withIgnoreCase().withStringMatcher(StringMatcher.CONTAINING));
 		return this.escolaRespostaModel.paraEscolaRespostas(repositorio.findAll(example));
 	}

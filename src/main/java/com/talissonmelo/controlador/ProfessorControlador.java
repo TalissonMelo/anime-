@@ -50,8 +50,7 @@ public class ProfessorControlador implements ProfessorControladorDocumentacao {
 	public ResponseEntity<Professor> salvar(@Valid @RequestBody ProfessorDto professorDto) {
 		log.info("Cadastrando professor.");
 		Professor professor = servico.salvar(professorDto);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(professor.getId())
-				.toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(professor.getId()).toUri();
 		return ResponseEntity.created(uri).body(professor);
 	}
 

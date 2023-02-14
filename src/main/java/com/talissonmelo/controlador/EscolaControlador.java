@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.talissonmelo.documentacao.EscolaControladorDocumentacao;
-import com.talissonmelo.modelo.Escola;
 import com.talissonmelo.modelo.conversao.EscolaRespostaModel;
 import com.talissonmelo.modelo.dto.EscolaDto;
 import com.talissonmelo.modelo.dto.EscolaResposta;
@@ -46,11 +45,9 @@ public class EscolaControlador implements EscolaControladorDocumentacao {
 	private EscolaRespostaModel escolaRespostaModel;
 
 	@GetMapping(value = "/nomes")
-	public ResponseEntity<List<EscolaResposta>> findAll(@RequestParam(value = "nome", required = false) String nome) {
+	public ResponseEntity<List<EscolaResposta>> listar(@RequestParam(value = "nome", required = false) String nome) {
 		log.info("Listando escolas nomes");
-		Escola escola = new Escola();
-		escola.setNome(nome);
-		List<EscolaResposta> respostas = servico.listar(escola);
+		List<EscolaResposta> respostas = servico.listar(nome);
 		servico.addLink(respostas);
 		return ResponseEntity.ok().body(respostas);
 	}
@@ -63,7 +60,7 @@ public class EscolaControlador implements EscolaControladorDocumentacao {
 		return ResponseEntity.ok().body(respostas);
 	}
 
-	//@GetMapping(value = "/{id}")
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<EscolaResposta> listarPorId(@PathVariable Long id) {
 		log.info("Listando escola por Id: {}", id);
 		EscolaResposta resposta =  this.escolaRespostaModel.paraEscolaResposta(servico.listarPorId(id));
