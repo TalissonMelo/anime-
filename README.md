@@ -29,3 +29,8 @@
 	2º Inicializar a Imagem Docker do projeto
 
         docker container run --rm -p 8080:8080 -e DB_HOST=NOME_CONTAINER_MYSQL --network NOME_NETWORK NOME_IMAGEM
+
+--------------------------------------------------------------------
+6º Efetuando geração de imagem com docker-compose
+
+    1º Efetuar docker compose up 
